@@ -9,29 +9,56 @@ import notes from './notes';
 export default {
   data() {
     return {
-      audioContext: null,
-      oscillator: null,
+      audioContext: new AudioContext(),
+      oscillators: [],
       allowed: true,
+      keysPressed: [],
     }
   },
   mounted() {
     window.addEventListener('keydown', this.playNote)
+    window.addEventListener('keyup', this.stopNote)
   },
   methods: {
     playNote(e) {
-      if (e.repeat != undefined) {
-        this.allowed = !e.repeat;
+      if (e.repeat) { return false }
+      this.setKeyPressed(e.key);
+      if (this.oscillators.find((osc) => osc.key === e.key)) {return false}
+      const newOscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+      newOscillator.connect(this.audioContext.destination);
+      newOscillator.frequency.value = notes[e.key.toUpperCase()][4];
+      newOscillator.start();
+      const oscillatorObj = {
+        key: e.key,
+        osc: newOscillator,
+        gain: gainNode,
       }
-      if (!this.allowed) return;
-      this.allowed = false;
-      console.log(e.key);
-      this.audioContext = new AudioContext();
-      this.oscillator = this.audioContext.createOscillator();
-      this.audioContext.createGain();
-      this.oscillator.connect(this.audioContext.destination);
-      this.oscillator.frequency.value = notes[e.key.toUpperCase()][4];
-      this.oscillator.start();
-      this.oscillator.stop(this.audioContext.currentTime + 0.1);
+      console.log('starting:', oscillatorObj);
+      this.oscillators.push(oscillatorObj);
+    },
+    stopNote(e) {
+      this.unsetKeyPressed(e.key)
+      const oscillatorHasKey = (osc) => {
+        return osc.key === e.key;
+      };
+      const oscillator = this.oscillators.find(oscillatorHasKey);
+      const index = this.oscillators.findIndex(oscillatorHasKey);
+      console.log('stopping:', oscillator)
+      oscillator.osc.stop();
+      this.oscillators.splice(index, 1);
+    },
+    setKeyPressed(key) {
+      const index = this.keysPressed.indexOf(key);
+      if (index > 0) {
+        return false;
+      }
+    },
+    unsetKeyPressed(key) {
+      const index = this.keysPressed.indexOf(key);
+      if (index >= 0) {
+        this.keysPressed.splice(index, 1);
+      }
     },
   },
 }
