@@ -39,7 +39,6 @@ export default {
         osc: newOscillator,
         gain: gainNode,
       }
-      console.log('starting:', oscillatorObj);
       this.oscillators.push(oscillatorObj);
     },
     stopNote(e) {
@@ -49,7 +48,6 @@ export default {
       };
       const oscillator = this.oscillators.find(oscillatorHasKey);
       const index = this.oscillators.findIndex(oscillatorHasKey);
-      console.log('stopping:', oscillator)
       oscillator.osc.stop();
       this.oscillators.splice(index, 1);
     },
