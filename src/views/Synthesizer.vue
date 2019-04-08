@@ -20,7 +20,7 @@ export default {
       keysPressed: [],
     }
   },
-  mounted() {
+  created() {
     window.addEventListener('keydown', this.playNote)
     window.addEventListener('keyup', this.stopNote)
   },
