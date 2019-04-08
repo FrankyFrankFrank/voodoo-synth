@@ -1,10 +1,10 @@
 import { shallowMount } from '@vue/test-utils'
-import App from '@/App.vue'
+import Synthesizer from '@/Views/Synthesizer.vue'
 import AudioContext from '../mocks/AudioContext';
 
-describe('App.vue', () => {
+describe('Synthesizer', () => {
   it('renders', () => {
-    const wrapper = shallowMount(App, {
+    const wrapper = shallowMount(Synthesizer, {
       propsData: {
         audioContext: AudioContext
       }
