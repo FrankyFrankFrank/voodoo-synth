@@ -7,9 +7,15 @@
 import notes from './notes';
 
 export default {
+  props: {
+    audioContext: {
+      default: function () {
+        return new AudioContext();
+      }
+    }
+  },
   data() {
     return {
-      audioContext: new AudioContext(),
       oscillators: [],
       allowed: true,
       keysPressed: [],
