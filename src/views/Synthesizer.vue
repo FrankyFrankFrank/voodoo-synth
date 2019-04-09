@@ -1,9 +1,17 @@
 <template>
-  <div></div>
+  <div>
+    <label for="shape">Shape</label>
+    <input id="shape" v-model="shape" type="range" min="0" max="3" />
+    <p>{{ soundShape }}</p>
+  </div>
 </template>
 
 <script>
 import frequencies from '@/frequencies';
+
+const shapeMap = [
+  'sine', 'square', 'triangle', 'sawtooth'
+];
 
 export default {
   props: {
@@ -15,6 +23,7 @@ export default {
   },
   data() {
     return {
+      shape: 0,
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -23,6 +32,11 @@ export default {
   created() {
     window.addEventListener('keydown', this.playNote)
     window.addEventListener('keyup', this.stopNote)
+  },
+  computed: {
+    soundShape() {
+      return shapeMap[this.shape];
+    }
   },
   methods: {
     playNote(e) {
@@ -34,6 +48,7 @@ export default {
       newOscillator.connect(gainNode);
       gainNode.connect(this.audioContext.destination);
       newOscillator.frequency.value = frequencies[e.key.toUpperCase()][4];
+      newOscillator.type = this.soundShape;
       newOscillator.start();
       const oscillatorObj = {
         key: e.key,
