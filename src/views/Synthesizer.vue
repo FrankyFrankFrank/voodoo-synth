@@ -79,7 +79,7 @@ export default {
       };
       const oscillator = this.oscillators.find(oscillatorHasKey);
       const index = this.oscillators.findIndex(oscillatorHasKey);
-      oscillator.gain.gain.exponentialRampToValueAtTime(0.01, now + this.decay);
+      oscillator.gain.gain.exponentialRampToValueAtTime(0.001, now + this.decay);
       this.oscillators.splice(index, now + this.decay);
     },
     setKeyPressed(key) {
