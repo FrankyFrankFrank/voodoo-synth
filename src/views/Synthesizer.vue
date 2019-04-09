@@ -1,8 +1,15 @@
 <template>
   <div>
-    <label for="shape">Shape</label>
-    <input id="shape" v-model="shape" type="range" min="0" max="3" />
-    <p>{{ soundShape }}</p>
+    <div style="border: 1px solid black; border-radius: 3px">
+      <label for="shape">Shape</label>
+      <input id="shape" v-model="shape" type="range" min="0" max="3" />
+      <p>{{ soundShape }}</p>
+    </div>
+    <div style="border: 1px solid black; border-radius: 3px">
+      <label for="volume">Volume</label>
+      <input id="volume" v-model="volume" type="range" min="0" max="1" step="0.1" />
+      <p>{{ volume }}</p>
+    </div>
   </div>
 </template>
 
@@ -24,6 +31,7 @@ export default {
   data() {
     return {
       shape: 0,
+      volume: 0.5,
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -45,6 +53,7 @@ export default {
       if (this.oscillators.find((osc) => osc.key === e.key)) {return false}
       const newOscillator = this.audioContext.createOscillator();
       const gainNode = this.audioContext.createGain();
+      gainNode.gain.value = this.volume;
       newOscillator.connect(gainNode);
       gainNode.connect(this.audioContext.destination);
       newOscillator.frequency.value = frequencies[e.key.toUpperCase()][4];
