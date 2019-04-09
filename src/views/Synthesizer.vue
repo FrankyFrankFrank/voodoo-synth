@@ -31,7 +31,8 @@ export default {
       if (this.oscillators.find((osc) => osc.key === e.key)) {return false}
       const newOscillator = this.audioContext.createOscillator();
       const gainNode = this.audioContext.createGain();
-      newOscillator.connect(this.audioContext.destination);
+      newOscillator.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
       newOscillator.frequency.value = frequencies[e.key.toUpperCase()][4];
       newOscillator.start();
       const oscillatorObj = {
@@ -42,13 +43,14 @@ export default {
       this.oscillators.push(oscillatorObj);
     },
     stopNote(e) {
+      const now = this.audioContext.currentTime;
       this.unsetKeyPressed(e.key)
       const oscillatorHasKey = (osc) => {
         return osc.key === e.key;
       };
       const oscillator = this.oscillators.find(oscillatorHasKey);
       const index = this.oscillators.findIndex(oscillatorHasKey);
-      oscillator.osc.stop();
+      oscillator.gain.gain.setTargetAtTime(0, now, 0.2);
       this.oscillators.splice(index, 1);
     },
     setKeyPressed(key) {
