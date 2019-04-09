@@ -1,18 +1,18 @@
 <template>
-  <div class="p-12">
-    <div style="border: 1px solid black; border-radius: 3px">
+  <div>
+    <div class="p-12">
       <label for="shape">Shape</label>
       <input id="shape" v-model="shape" type="range" min="0" max="3" />
       <p>{{ soundShape }}</p>
     </div>
 
-    <div style="border: 1px solid black; border-radius: 3px">
+    <div class="p-12">
       <label for="volume">Volume</label>
       <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.1" />
       <p>{{ volume }}</p>
     </div>
 
-    <div style="border: 1px solid black; border-radius: 3px">
+    <div class="p-12">
       <label for="decay">Decay</label>
       <input id="decay" v-model.number="decay" type="range" min="0" max="4" step="0.1" />
       <p>{{ decay }}</p>
