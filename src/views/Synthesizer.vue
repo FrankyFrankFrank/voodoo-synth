@@ -17,6 +17,12 @@
       <input id="decay" v-model.number="decay" type="range" min="0" max="4" step="0.1" />
       <p>{{ decay }}</p>
     </div>
+
+    <div class="p-12">
+      <label for="attack">Attack</label>
+      <input id="attack" v-model.number="attack" type="range" min="0" max="4" step="0.1" />
+      <p>{{ attack }}</p>
+    </div>
   </div>
 </template>
 
@@ -37,6 +43,7 @@ export default {
       shape: 0,
       volume: 0.5,
       decay: 0.2,
+      attack: 0.2,
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -58,7 +65,8 @@ export default {
       if (this.oscillators.find((osc) => osc.key === e.key)) {return false}
       const newOscillator = this.audioContext.createOscillator();
       const gainNode = this.audioContext.createGain();
-      gainNode.gain.value = this.volume;
+      gainNode.gain.value = 0.01;
+      gainNode.gain.setTargetAtTime(this.volume, this.audioContext.currentTime, this.attack);
       newOscillator.connect(gainNode);
       gainNode.connect(this.audioContext.destination);
       newOscillator.frequency.value = frequencies[e.key.toUpperCase()][4];
