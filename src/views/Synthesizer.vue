@@ -1,24 +1,28 @@
 <template>
-  <div>
+  <div class="p-12">
     <div style="border: 1px solid black; border-radius: 3px">
       <label for="shape">Shape</label>
       <input id="shape" v-model="shape" type="range" min="0" max="3" />
       <p>{{ soundShape }}</p>
     </div>
+
     <div style="border: 1px solid black; border-radius: 3px">
       <label for="volume">Volume</label>
-      <input id="volume" v-model="volume" type="range" min="0" max="1" step="0.1" />
+      <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.1" />
       <p>{{ volume }}</p>
+    </div>
+
+    <div style="border: 1px solid black; border-radius: 3px">
+      <label for="decay">Decay</label>
+      <input id="decay" v-model.number="decay" type="range" min="0" max="4" step="0.1" />
+      <p>{{ decay }}</p>
     </div>
   </div>
 </template>
 
 <script>
 import frequencies from '@/frequencies';
-
-const shapeMap = [
-  'sine', 'square', 'triangle', 'sawtooth'
-];
+import shapeMap from '@/shapes';
 
 export default {
   props: {
@@ -32,6 +36,7 @@ export default {
     return {
       shape: 0,
       volume: 0.5,
+      decay: 0.2,
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -74,8 +79,8 @@ export default {
       };
       const oscillator = this.oscillators.find(oscillatorHasKey);
       const index = this.oscillators.findIndex(oscillatorHasKey);
-      oscillator.gain.gain.setTargetAtTime(0, now, 0.2);
-      this.oscillators.splice(index, 1);
+      oscillator.gain.gain.exponentialRampToValueAtTime(0.01, now + this.decay);
+      this.oscillators.splice(index, now + this.decay);
     },
     setKeyPressed(key) {
       const index = this.keysPressed.indexOf(key);
