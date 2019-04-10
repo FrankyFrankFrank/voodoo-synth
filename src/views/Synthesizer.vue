@@ -1,27 +1,29 @@
 <template>
-  <div>
-    <div class="p-12">
-      <label for="shape">Shape</label>
-      <input id="shape" v-model="shape" type="range" min="0" max="3" />
-      <p>{{ soundShape }}</p>
-    </div>
+  <div class="bg-black h-screen">
+    <div class="flex flex-wrap items-start text-white justify-center">
+      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label for="shape">Shape</label>
+        <input id="shape" v-model="shape" type="range" min="0" max="3" />
+        <p>{{ soundShape }}</p>
+      </div>
 
-    <div class="p-12">
-      <label for="volume">Volume</label>
-      <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.1" />
-      <p>{{ volume }}</p>
-    </div>
+      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label for="volume">Volume</label>
+        <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.1" />
+        <p>{{ volume }}</p>
+      </div>
 
-    <div class="p-12">
-      <label for="decay">Decay</label>
-      <input id="decay" v-model.number="decay" type="range" min="0.1" max="4" step="0.1" />
-      <p>{{ decay }}</p>
-    </div>
+      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label for="decay">Decay</label>
+        <input id="decay" v-model.number="decay" type="range" min="0.1" max="4" step="0.1" />
+        <p>{{ decay }}</p>
+      </div>
 
-    <div class="p-12">
-      <label for="attack">Attack</label>
-      <input id="attack" v-model.number="attack" type="range" min="0" max="4" step="0.1" />
-      <p>{{ attack }}</p>
+      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label for="attack">Attack</label>
+        <input id="attack" v-model.number="attack" type="range" min="0" max="4" step="0.1" />
+        <p>{{ attack }}</p>
+      </div>
     </div>
   </div>
 </template>
