@@ -87,6 +87,7 @@
 import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
 import keyMap from '@/keys';
+import { arpeggiate } from '@/components/Arpeggiator';
 
 const keyIsAValidNote = (key) => {
   return keyMap[key] !== undefined;
@@ -157,22 +158,24 @@ export default {
       return gainNode;
     },
     createOscillatorNode(key) {
-      const oscillator = this.audioContext.createOscillator();
+      const audioContext = this.audioContext;
+      const oscillator = audioContext.createOscillator();
+      const timing = this.arpeggiationTiming;
+      const steps = this.arpeggiationSteps;
+      const baseOctave = this.octave;
       oscillator.type = this.soundShape;
       oscillator.frequency.setTargetAtTime(frequencies[keyMap[key]][this.octave], this.audioContext.currentTime, 0);
       if (this.arpeggiating) {
-        this.arpeggiate(oscillator, key)
+        arpeggiate({
+          audioContext,
+          oscillator,
+          timing,
+          steps,
+          key,
+          baseOctave,
+        });
       }
       return oscillator;
-    },
-    arpeggiate(oscillator, key) {
-      const now = this.audioContext.currentTime
-      const timing = this.arpeggiationTiming
-      const note = frequencies[keyMap[key]];
-      for (let i = 1; i < 1000; i++) {
-        const octave = this.octave + (i % this.arpeggiationSteps);
-        oscillator.frequency.setValueAtTime(note[octave], now + timing * i, 0);
-      }
     },
     setKeyPressed(key) {
       this.keysPressed.push(key)
