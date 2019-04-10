@@ -1,9 +1,17 @@
 <template>
   <div class="bg-black h-screen">
     <div class="flex flex-wrap items-start text-white justify-center">
-      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-12 m-4 flex flex-col items-center">
         <label for="shape">Shape</label>
-        <input id="shape" v-model="shape" type="range" min="0" max="3" />
+        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+          <input id="shape" v-model="shape" type="range" list="waves" min="0" max="3" />
+        </div>
+        <datalist id="waves">
+          <option value="0"/>
+          <option value="1"/>
+          <option value="2"/>
+          <option value="3"/>
+        </datalist>
         <p>{{ soundShape }}</p>
       </div>
 
