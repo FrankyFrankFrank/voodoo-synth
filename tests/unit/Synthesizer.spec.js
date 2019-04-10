@@ -19,16 +19,16 @@ describe('Synthesizer', () => {
       propsData: {
         audioContext: AudioContext
       },
-      attachToDocument: true,
       methods: {
         playNote: playNoteStub,
-      }
+      },
+      attachToDocument: true,
     });
 
     wrapper.trigger('keydown', {
-      key: 'c'
+      key: 'a'
     });
 
-    expect(playNoteStub).toHaveBeenCalledWith(expect.objectContaining({ key: 'c' }));
+    expect(playNoteStub).toHaveBeenCalledWith('a');
   });
 });
