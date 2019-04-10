@@ -10,9 +10,9 @@
       </div>
     </div>
     <div class="flex flex-wrap items-start justify-center">
-      <div class="p-4 m-4 flex flex-col items-center">
-        <label for="shape">Shape</label>
-        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label class="self-start text-xl uppercase" for="shape">Shape</label>
+        <div class="bg-black rounded p-4 my-4">
           <input id="shape" v-model="shape" type="range" list="waves" min="0" max="3" />
         </div>
         <datalist id="waves">
@@ -24,25 +24,25 @@
         <p>{{ soundShape }}</p>
       </div>
 
-      <div class="p-4 m-4 flex flex-col items-center">
-        <label for="decay">Decay</label>
-        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label class="self-start text-xl uppercase" for="decay">Decay</label>
+        <div class="bg-black rounded p-4 my-4">
           <input id="decay" v-model.number="decay" type="range" min="0.01" max="5" step="0.01" />
         </div>
         <p>{{ decay }} s</p>
       </div>
 
-      <div class="p-4 m-4 flex flex-col items-center">
-        <label for="attack">Attack</label>
-        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label class="self-start text-xl uppercase" for="attack">Attack</label>
+        <div class="bg-black rounded p-4 my-4">
           <input id="attack" v-model.number="attack" type="range" min="0.01" max="5" step="0.01" />
         </div>
         <p>{{ attack }} s</p>
       </div>
 
-      <div class="p-4 m-4 flex flex-col items-center">
-        <label for="octave">Octave</label>
-        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label class="self-start text-xl uppercase" for="octave">Octave</label>
+        <div class="bg-black rounded p-4 my-4">
           <input id="octave" v-model.number="octave" type="range" min="0" max="7" step="1" list="octaves"/>
           <datalist id="octaves">
             <option value="0"/>
@@ -59,7 +59,7 @@
       </div>
 
       <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-        <label>Arpeggiator</label>
+        <label class="self-start text-xl uppercase">Arpeggiator</label>
         <div class="bg-black rounded p-4 my-4">
           <input id="arpeggiating" v-model="arpeggiator.active" type="checkbox" />
           <label for="arpeggiating">{{ arpeggiator.active ? 'ON' : 'OFF' }}</label>
