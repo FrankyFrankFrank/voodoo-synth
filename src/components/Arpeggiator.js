@@ -8,9 +8,9 @@ export default class Arpeggiator {
   }
 
   arpeggiate ({ oscillator, key, baseOctave }) {
+    const { steps, timing } = this.config;
     const now = this.context.currentTime;
     const note = frequencies[keyMap[key]];
-    const { steps, timing } = this.config;
 
     for (let i = 1; i < 1000; i++) {
       const octave = baseOctave + (i % steps);
