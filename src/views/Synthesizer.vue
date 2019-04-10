@@ -43,7 +43,17 @@
       <div class="p-4 m-4 flex flex-col items-center">
         <label for="octave">Octave</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-          <input id="octave" v-model.number="octave" type="range" min="0" max="7" step="1" />
+          <input id="octave" v-model.number="octave" type="range" min="0" max="7" step="1" list="octaves"/>
+          <datalist id="octaves">
+            <option value="0"/>
+            <option value="1"/>
+            <option value="2"/>
+            <option value="3"/>
+            <option value="4"/>
+            <option value="5"/>
+            <option value="6"/>
+            <option value="7"/>
+          </datalist>
         </div>
         <p>Octave {{ octave }}</p>
       </div>
@@ -59,8 +69,14 @@
           <label for="arpeggiationTiming">Timing {{ arpeggiationTiming }}</label>
         </div>
         <div class="bg-black rounded p-4 my-4">
-          <input id="arpeggiationSteps" v-model.number="arpeggiationSteps" type="range" min="2" max="5" step="1" />
+          <input id="arpeggiationSteps" v-model.number="arpeggiationSteps" type="range" list="steps" min="2" max="5" />
           <label for="arpeggiationSteps">Steps {{ arpeggiationSteps }}</label>
+          <datalist id="steps">
+            <option value="2"/>
+            <option value="3"/>
+            <option value="4"/>
+            <option value="5"/>
+          </datalist>
         </div>
       </div>
     </div>
