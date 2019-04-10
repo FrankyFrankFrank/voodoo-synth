@@ -39,6 +39,14 @@
         </div>
         <p>{{ attack }} s</p>
       </div>
+
+      <div class="p-12 m-4 flex flex-col items-center">
+        <label for="octave">Octave</label>
+        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+          <input id="octave" v-model.number="octave" type="range" min="0" max="5" step="1" />
+        </div>
+        <p>Octave {{ octave }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +74,7 @@ export default {
       volume: 0.5,
       decay: 0.1,
       attack: 0.1,
+      octave: 4,
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -114,7 +123,7 @@ export default {
     },
     createOscillatorNode(key) {
       const oscillator = this.audioContext.createOscillator();
-      oscillator.frequency.value = frequencies[keyMap[key]][4];
+      oscillator.frequency.value = frequencies[keyMap[key]][this.octave];
       oscillator.type = this.soundShape;
       return oscillator;
     },
