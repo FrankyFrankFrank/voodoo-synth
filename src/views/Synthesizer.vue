@@ -30,6 +30,10 @@
 import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
 
+const keyIsAValidNote = (key) => {
+  return ['a','b','c','d','e','f','g'].includes(key);
+}
+
 export default {
   props: {
     audioContext: {
@@ -61,6 +65,10 @@ export default {
   methods: {
     playNote(e) {
       if (e.repeat) { return false }
+      if (!keyIsAValidNote(e.key)) {
+        console.log('not a note')
+        return false;
+      }
       this.setKeyPressed(e.key);
       if (this.oscillators.find((osc) => osc.key === e.key)) {return false}
       const newOscillator = this.audioContext.createOscillator();
@@ -77,6 +85,10 @@ export default {
       newOscillator.start();
     },
     stopNote(e) {
+      if (!keyIsAValidNote(e.key)) {
+        console.log('not a note')
+        return false;
+      }
       const now = this.audioContext.currentTime;
       this.unsetKeyPressed(e.key)
       const oscillatorHasKey = (osc) => {
