@@ -27,7 +27,7 @@
       <div class="p-4 m-4 flex flex-col items-center">
         <label for="decay">Decay</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-          <input id="decay" v-model.number="decay" type="range" min="0.1" max="5" step="0.1" />
+          <input id="decay" v-model.number="decay" type="range" min="0.01" max="5" step="0.01" />
         </div>
         <p>{{ decay }} s</p>
       </div>
