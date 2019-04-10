@@ -35,7 +35,7 @@
       <div class="p-12 m-4 flex flex-col items-center">
         <label for="attack">Attack</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-          <input id="attack" v-model.number="attack" type="range" min="0.1" max="5" step="0.1" />
+          <input id="attack" v-model.number="attack" type="range" min="0.01" max="5" step="0.01" />
         </div>
         <p>{{ attack }} s</p>
       </div>
