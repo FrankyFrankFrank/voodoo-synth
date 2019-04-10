@@ -64,20 +64,17 @@ export default {
       this.setKeyPressed(e.key);
       if (this.oscillators.find((osc) => osc.key === e.key)) {return false}
       const newOscillator = this.audioContext.createOscillator();
-      const gainNode = this.audioContext.createGain();
-      gainNode.gain.value = 0.01;
-      gainNode.gain.setTargetAtTime(this.volume, this.audioContext.currentTime, this.attack);
-      newOscillator.connect(gainNode);
-      gainNode.connect(this.audioContext.destination);
+      const gainNode = this.createGainNode();
       newOscillator.frequency.value = frequencies[e.key.toUpperCase()][4];
       newOscillator.type = this.soundShape;
-      newOscillator.start();
+      newOscillator.connect(gainNode);
       const oscillatorObj = {
         key: e.key,
         osc: newOscillator,
         gain: gainNode,
       }
       this.oscillators.push(oscillatorObj);
+      newOscillator.start();
     },
     stopNote(e) {
       const now = this.audioContext.currentTime;
@@ -89,6 +86,13 @@ export default {
       const index = this.oscillators.findIndex(oscillatorHasKey);
       oscillator.gain.gain.exponentialRampToValueAtTime(0.001, now + this.decay);
       this.oscillators.splice(index, now + this.decay);
+    },
+    createGainNode() {
+      const gainNode = this.audioContext.createGain();
+      gainNode.gain.value = 0.01;
+      gainNode.gain.setTargetAtTime(this.volume, this.audioContext.currentTime, this.attack);
+      gainNode.connect(this.audioContext.destination);
+      return gainNode;
     },
     setKeyPressed(key) {
       const index = this.keysPressed.indexOf(key);
