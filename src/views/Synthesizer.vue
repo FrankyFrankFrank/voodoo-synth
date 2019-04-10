@@ -14,7 +14,7 @@
 
     <div class="p-12">
       <label for="decay">Decay</label>
-      <input id="decay" v-model.number="decay" type="range" min="0" max="4" step="0.1" />
+      <input id="decay" v-model.number="decay" type="range" min="0.1" max="4" step="0.1" />
       <p>{{ decay }}</p>
     </div>
 
@@ -64,40 +64,29 @@ export default {
   },
   methods: {
     playNote(e) {
-      if (e.repeat) { return false }
-      if (!keyIsAValidNote(e.key)) {
-        console.log('not a note')
-        return false;
-      }
-      this.setKeyPressed(e.key);
-      if (this.oscillators.find((osc) => osc.key === e.key)) {return false}
-      const newOscillator = this.audioContext.createOscillator();
+      const key = e.key;
+      const keyIsRepeating = e.repeat;
+      if (keyIsRepeating) { return }
+      if (!keyIsAValidNote(key)) { return }
+      if (this.findOscillatorBy({ key })) { return }
+
+      this.setKeyPressed(key);
       const gainNode = this.createGainNode();
-      newOscillator.frequency.value = frequencies[e.key.toUpperCase()][4];
-      newOscillator.type = this.soundShape;
-      newOscillator.connect(gainNode);
-      const oscillatorObj = {
-        key: e.key,
-        osc: newOscillator,
-        gain: gainNode,
-      }
-      this.oscillators.push(oscillatorObj);
-      newOscillator.start();
+      const oscillator = this.createOscillatorNode(key);
+      oscillator.connect(gainNode);
+      this.oscillators.push({ key, oscillator, gainNode });
+      oscillator.start();
     },
     stopNote(e) {
-      if (!keyIsAValidNote(e.key)) {
-        console.log('not a note')
-        return false;
-      }
+      const key = e.key;
+      if (!keyIsAValidNote(key)) { return }
+      if (!this.keysPressed.indexOf(key)) { return }
+      this.unsetKeyPressed(key)
       const now = this.audioContext.currentTime;
-      this.unsetKeyPressed(e.key)
-      const oscillatorHasKey = (osc) => {
-        return osc.key === e.key;
-      };
-      const oscillator = this.oscillators.find(oscillatorHasKey);
-      const index = this.oscillators.findIndex(oscillatorHasKey);
-      oscillator.gain.gain.exponentialRampToValueAtTime(0.001, now + this.decay);
-      this.oscillators.splice(index, now + this.decay);
+      const oscillator = this.findOscillatorBy({ key });
+      const index = this.oscillators.findIndex((osc) => { return osc.key === key });
+      oscillator.gainNode.gain.exponentialRampToValueAtTime(0.001, now + this.decay);
+      this.oscillators.splice(index, 1);
     },
     createGainNode() {
       const gainNode = this.audioContext.createGain();
@@ -105,6 +94,12 @@ export default {
       gainNode.gain.setTargetAtTime(this.volume, this.audioContext.currentTime, this.attack);
       gainNode.connect(this.audioContext.destination);
       return gainNode;
+    },
+    createOscillatorNode(key) {
+      const oscillator = this.audioContext.createOscillator();
+      oscillator.frequency.value = frequencies[key.toUpperCase()][4];
+      oscillator.type = this.soundShape;
+      return oscillator;
     },
     setKeyPressed(key) {
       const index = this.keysPressed.indexOf(key);
@@ -118,6 +113,9 @@ export default {
         this.keysPressed.splice(index, 1);
       }
     },
+    findOscillatorBy({ key }) {
+      return this.oscillators.find((osc) => osc.key === key)
+    }
   },
 }
 </script>
