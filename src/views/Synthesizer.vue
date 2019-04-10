@@ -29,9 +29,10 @@
 <script>
 import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
+import keyMap from '@/keys';
 
 const keyIsAValidNote = (key) => {
-  return ['a','b','c','d','e','f','g'].includes(key);
+  return keyMap[key] !== undefined;
 }
 
 export default {
@@ -97,7 +98,7 @@ export default {
     },
     createOscillatorNode(key) {
       const oscillator = this.audioContext.createOscillator();
-      oscillator.frequency.value = frequencies[key.toUpperCase()][4];
+      oscillator.frequency.value = frequencies[keyMap[key]][4];
       oscillator.type = this.soundShape;
       return oscillator;
     },
