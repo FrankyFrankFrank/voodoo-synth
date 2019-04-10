@@ -148,8 +148,9 @@ export default {
       const now = this.audioContext.currentTime
       const timing = this.arpeggiationTiming
       const note = frequencies[keyMap[key]];
-      for (let i = 1; i < 4; i++) {
-        oscillator.frequency.setTargetAtTime(note[this.octave + i], now + timing * i, 0);
+      for (let i = 1; i < 90; i++) {
+        const octave = this.octave + (i % 4);
+        oscillator.frequency.setValueAtTime(note[octave], now + timing * i, 0);
       }
     },
     setKeyPressed(key) {
