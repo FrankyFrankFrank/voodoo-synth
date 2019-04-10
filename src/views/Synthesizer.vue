@@ -146,12 +146,12 @@ export default {
     },
     stopNote(e) {
       const key = e.key;
+      const now = this.audioContext.currentTime;
       if (!keyIsAValidNote(key)) { return }
       this.unsetKeyPressed(key)
-      const now = this.audioContext.currentTime;
       const oscillator = this.findOscillatorBy({ key });
       const oscillatorIndex = this.oscillators.findIndex((osc) => { return osc.key === key });
-      oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, this.audioContext.currentTime + this.decay);
+      oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, now + this.decay);
       this.oscillators.splice(oscillatorIndex, 1);
     },
     createGainNode() {
