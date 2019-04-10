@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black h-screen text-white">
+  <div class="bg-black text-white">
     <div>
       <div class="p-4 bg-black rounded mb-4 flex flex-col items-end" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
         <label for="volume">Master Volume</label>
@@ -49,7 +49,11 @@
       </div>
 
       <div class="p-12 m-4 flex flex-col items-center">
-        <label for="arpeggiationTiming">Arpeggiator</label>
+        <label>Arpeggiator</label>
+        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+          <input id="arpeggiating" v-model="arpeggiating" type="checkbox" />
+          {{ arpeggiating ? 'ON' : 'OFF' }}
+        </div>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
           <input id="arpeggiationTiming" v-model.number="arpeggiationTiming" type="range" min="0" max="2" step="0.01" />
         </div>
@@ -83,7 +87,7 @@ export default {
       decay: 0.1,
       attack: 0.1,
       octave: 4,
-      arpeggiating: true,
+      arpeggiating: false,
       arpeggiationTiming: 0.2,
       oscillators: [],
       allowed: true,
@@ -145,7 +149,7 @@ export default {
       const timing = this.arpeggiationTiming
       const note = frequencies[keyMap[key]];
       for (let i = 1; i <= 3; i++) {
-        oscillator.frequency.setTargetAtTime(note[this.octave + i], now + (timing * i), 0);
+        oscillator.frequency.setTargetAtTime(note[this.octave + (i-1)], now + (timing * i), 0);
       }
     },
     setKeyPressed(key) {
