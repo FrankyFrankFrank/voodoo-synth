@@ -121,7 +121,7 @@ export default {
     }
   },
   created() {
-    window.addEventListener('keydown', this.playNote)
+    window.addEventListener('keydown', this.handleKeyDown)
     window.addEventListener('keyup', this.stopNote)
   },
   computed: {
@@ -130,11 +130,25 @@ export default {
     }
   },
   methods: {
-    playNote(e) {
+    handleKeyDown(e) {
       const key = e.key;
-      const keyIsRepeating = e.repeat;
-      if (keyIsRepeating) { return }
-      if (!keyIsAValidNote(key)) { return }
+      if (keyIsAValidNote(key) && !e.repeat) {
+        this.playNote(key);
+      }
+      if (key === '.') {
+        this.changeOctave(1);
+      }
+      if (key === ',') {
+        this.changeOctave(-1);
+      }
+    },
+    changeOctave(step) {
+      if (this.octave + step < 0 || this.octave + step > 7) {
+        return
+      }
+      this.octave = this.octave + step;
+    },
+    playNote(key) {
       if (this.findOscillatorBy({ key })) { return }
 
       this.setKeyPressed(key);
