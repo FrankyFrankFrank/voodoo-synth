@@ -48,16 +48,20 @@
         <p>Octave {{ octave }}</p>
       </div>
 
-      <div class="p-12 m-4 flex flex-col items-center">
+      <div class="p-12 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
         <label>Arpeggiator</label>
-        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <div class="bg-black rounded p-4 my-4">
           <input id="arpeggiating" v-model="arpeggiating" type="checkbox" />
           <label for="arpeggiating">{{ arpeggiating ? 'ON' : 'OFF' }}</label>
         </div>
-        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <div class="bg-black rounded p-4 my-4">
           <input id="arpeggiationTiming" v-model.number="arpeggiationTiming" type="range" min="0.01" max="2" step="0.01" />
+          <label for="arpeggiationTiming">Timing {{ arpeggiationTiming }}</label>
         </div>
-        <p>Timing {{ arpeggiationTiming }}</p>
+        <div class="bg-black rounded p-4 my-4">
+          <input id="arpeggiationSteps" v-model.number="arpeggiationSteps" type="range" min="2" max="5" step="1" />
+          <label for="arpeggiationSteps">Steps {{ arpeggiationSteps }}</label>
+        </div>
       </div>
     </div>
   </div>
@@ -89,6 +93,7 @@ export default {
       octave: 4,
       arpeggiating: false,
       arpeggiationTiming: 0.2,
+      arpeggiationSteps: 3,
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -149,7 +154,7 @@ export default {
       const timing = this.arpeggiationTiming
       const note = frequencies[keyMap[key]];
       for (let i = 1; i < 1000; i++) {
-        const octave = this.octave + (i % 4);
+        const octave = this.octave + (i % this.arpeggiationSteps);
         oscillator.frequency.setValueAtTime(note[octave], now + timing * i, 0);
       }
     },
