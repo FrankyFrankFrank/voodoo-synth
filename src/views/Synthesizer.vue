@@ -47,6 +47,14 @@
         </div>
         <p>Octave {{ octave }}</p>
       </div>
+
+      <div class="p-12 m-4 flex flex-col items-center">
+        <label for="arpeggiationTiming">Arpeggiator</label>
+        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+          <input id="arpeggiationTiming" v-model.number="arpeggiationTiming" type="range" min="0" max="2" step="0.01" />
+        </div>
+        <p>Timing {{ arpeggiationTiming }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -75,6 +83,8 @@ export default {
       decay: 0.1,
       attack: 0.1,
       octave: 4,
+      arpeggiating: true,
+      arpeggiationTiming: 0.2,
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -123,9 +133,20 @@ export default {
     },
     createOscillatorNode(key) {
       const oscillator = this.audioContext.createOscillator();
-      oscillator.frequency.value = frequencies[keyMap[key]][this.octave];
       oscillator.type = this.soundShape;
+      oscillator.frequency.setTargetAtTime(frequencies[keyMap[key]][this.octave], this.audioContext.currentTime, 0);
+      if (this.arpeggiating) {
+        this.arpeggiate(oscillator, key)
+      }
       return oscillator;
+    },
+    arpeggiate(oscillator, key) {
+      const now = this.audioContext.currentTime
+      const timing = this.arpeggiationTiming
+      const note = frequencies[keyMap[key]];
+      for (let i = 1; i <= 3; i++) {
+        oscillator.frequency.setTargetAtTime(note[this.octave + i], now + (timing * i), 0);
+      }
     },
     setKeyPressed(key) {
       this.keysPressed.push(key)
