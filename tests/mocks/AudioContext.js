@@ -5,8 +5,17 @@ export default {
       start: () => {},
       frequency: {
         value: null,
+        setTargetAtTime: () => {},
       }
     }
   },
-  createGain: () => {},
+  createGain: () => {
+    return {
+      gain: {
+        value: 0,
+        setTargetAtTime: () => {},
+      },
+      connect: () => {},
+    }
+  },
 }
