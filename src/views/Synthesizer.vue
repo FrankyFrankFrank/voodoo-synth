@@ -1,9 +1,11 @@
 <template>
   <div class="bg-black h-screen text-white">
-    <div class="flex">
-      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-        <label for="volume">Volume</label>
-        <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.1" />
+    <div>
+      <div class="p-4 bg-black rounded mb-4 flex flex-col items-end" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label for="volume">Master Volume</label>
+        <div class="my-4">
+          <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.01" />
+        </div>
         <p>{{ volume }}</p>
       </div>
     </div>
