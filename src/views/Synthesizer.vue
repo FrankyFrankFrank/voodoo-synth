@@ -1,6 +1,13 @@
 <template>
-  <div class="bg-black h-screen">
-    <div class="flex flex-wrap items-start text-white justify-center">
+  <div class="bg-black h-screen text-white">
+    <div class="flex">
+      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+        <label for="volume">Volume</label>
+        <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.1" />
+        <p>{{ volume }}</p>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-start justify-center">
       <div class="p-12 m-4 flex flex-col items-center">
         <label for="shape">Shape</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
@@ -15,21 +22,19 @@
         <p>{{ soundShape }}</p>
       </div>
 
-      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-        <label for="volume">Volume</label>
-        <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.1" />
-        <p>{{ volume }}</p>
-      </div>
-
-      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-12 m-4 flex flex-col items-center">
         <label for="decay">Decay</label>
-        <input id="decay" v-model.number="decay" type="range" min="0.1" max="4" step="0.1" />
+        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+          <input id="decay" v-model.number="decay" type="range" min="0.1" max="4" step="0.1" />
+        </div>
         <p>{{ decay }}</p>
       </div>
 
-      <div class="p-12 bg-black rounded m-4 flex" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-12 m-4 flex flex-col items-center">
         <label for="attack">Attack</label>
-        <input id="attack" v-model.number="attack" type="range" min="0" max="4" step="0.1" />
+        <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+          <input id="attack" v-model.number="attack" type="range" min="0" max="4" step="0.1" />
+        </div>
         <p>{{ attack }}</p>
       </div>
     </div>
