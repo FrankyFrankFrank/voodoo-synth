@@ -55,7 +55,7 @@
           {{ arpeggiating ? 'ON' : 'OFF' }}
         </div>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-          <input id="arpeggiationTiming" v-model.number="arpeggiationTiming" type="range" min="0" max="2" step="0.01" />
+          <input id="arpeggiationTiming" v-model.number="arpeggiationTiming" type="range" min="0.01" max="2" step="0.01" />
         </div>
         <p>Timing {{ arpeggiationTiming }}</p>
       </div>
