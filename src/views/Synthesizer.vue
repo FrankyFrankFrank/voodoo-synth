@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="flex flex-wrap items-start justify-center">
-      <div class="p-12 m-4 flex flex-col items-center">
+      <div class="p-4 m-4 flex flex-col items-center">
         <label for="shape">Shape</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
           <input id="shape" v-model="shape" type="range" list="waves" min="0" max="3" />
@@ -24,7 +24,7 @@
         <p>{{ soundShape }}</p>
       </div>
 
-      <div class="p-12 m-4 flex flex-col items-center">
+      <div class="p-4 m-4 flex flex-col items-center">
         <label for="decay">Decay</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
           <input id="decay" v-model.number="decay" type="range" min="0.1" max="5" step="0.1" />
@@ -32,7 +32,7 @@
         <p>{{ decay }} s</p>
       </div>
 
-      <div class="p-12 m-4 flex flex-col items-center">
+      <div class="p-4 m-4 flex flex-col items-center">
         <label for="attack">Attack</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
           <input id="attack" v-model.number="attack" type="range" min="0.01" max="5" step="0.01" />
@@ -40,7 +40,7 @@
         <p>{{ attack }} s</p>
       </div>
 
-      <div class="p-12 m-4 flex flex-col items-center">
+      <div class="p-4 m-4 flex flex-col items-center">
         <label for="octave">Octave</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
           <input id="octave" v-model.number="octave" type="range" min="0" max="5" step="1" />
@@ -48,7 +48,7 @@
         <p>Octave {{ octave }}</p>
       </div>
 
-      <div class="p-12 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
         <label>Arpeggiator</label>
         <div class="bg-black rounded p-4 my-4">
           <input id="arpeggiating" v-model="arpeggiating" type="checkbox" />
