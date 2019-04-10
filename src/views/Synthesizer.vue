@@ -81,7 +81,6 @@ export default {
     stopNote(e) {
       const key = e.key;
       if (!keyIsAValidNote(key)) { return }
-      // if (!this.keysPressed.indexOf(key)) { return }
       this.unsetKeyPressed(key)
       const now = this.audioContext.currentTime;
       const oscillator = this.findOscillatorBy({ key });
