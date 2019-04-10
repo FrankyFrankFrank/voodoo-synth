@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black text-white">
+  <div>
     <div>
       <div class="p-4 bg-black rounded mb-4 flex flex-col items-end" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
         <label for="volume">Master Volume</label>
