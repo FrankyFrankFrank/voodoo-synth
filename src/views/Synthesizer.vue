@@ -27,15 +27,15 @@
       <div class="p-12 m-4 flex flex-col items-center">
         <label for="decay">Decay</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-          <input id="decay" v-model.number="decay" type="range" min="0.1" max="1" step="0.1" />
+          <input id="decay" v-model.number="decay" type="range" min="0.1" max="5" step="0.1" />
         </div>
-        <p>{{ decay }}</p>
+        <p>{{ decay }} s</p>
       </div>
 
       <div class="p-12 m-4 flex flex-col items-center">
         <label for="attack">Attack</label>
         <div class="bg-black rounded p-4 my-4" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
-          <input id="attack" v-model.number="attack" type="range" min="0" max="1" step="0.1" />
+          <input id="attack" v-model.number="attack" type="range" min="0.1" max="5" step="0.1" />
         </div>
         <p>{{ attack }}</p>
       </div>
@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      shape: 0,
+      shape: 2,
       volume: 0.5,
       decay: 0.1,
       attack: 0.1,
@@ -102,7 +102,7 @@ export default {
       const now = this.audioContext.currentTime;
       const oscillator = this.findOscillatorBy({ key });
       const oscillatorIndex = this.oscillators.findIndex((osc) => { return osc.key === key });
-      oscillator.gainNode.gain.setTargetAtTime(0.0001, this.audioContext.currentTime, this.decay);
+      oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, this.audioContext.currentTime + this.decay);
       this.oscillators.splice(oscillatorIndex, 1);
     },
     createGainNode() {
