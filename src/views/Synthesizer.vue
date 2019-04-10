@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <div class="p-4 bg-black mb-4 flex flex-col items-end" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="p-4 bg-black mb-4 flex flex-col items-end shadows">
         <label for="volume">Master Volume</label>
         <div class="my-4">
           <input id="volume" v-model.number="volume" type="range" min="0" max="1" step="0.01" />
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="flex flex-wrap items-start justify-center">
-      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="box">
         <label class="self-start text-xl uppercase" for="shape">Shape</label>
         <div class="bg-black p-4 my-4">
           <input id="shape" v-model="shape" type="range" list="waves" min="0" max="3" />
@@ -24,7 +24,7 @@
         <p>{{ soundShape }}</p>
       </div>
 
-      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="box">
         <label class="self-start text-xl uppercase" for="decay">Decay</label>
         <div class="bg-black p-4 my-4">
           <input id="decay" v-model.number="decay" type="range" min="0.01" max="5" step="0.01" />
@@ -32,7 +32,7 @@
         <p>{{ decay }} s</p>
       </div>
 
-      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="box">
         <label class="self-start text-xl uppercase" for="attack">Attack</label>
         <div class="bg-black p-4 my-4">
           <input id="attack" v-model.number="attack" type="range" min="0.01" max="5" step="0.01" />
@@ -40,7 +40,7 @@
         <p>{{ attack }} s</p>
       </div>
 
-      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="box">
         <label class="self-start text-xl uppercase" for="octave">Octave</label>
         <div class="bg-black p-4 my-4">
           <input id="octave" v-model.number="octave" type="range" min="0" max="7" step="1" list="octaves"/>
@@ -58,7 +58,7 @@
         <p>Octave {{ octave }}</p>
       </div>
 
-      <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
+      <div class="box">
         <label class="self-start text-xl uppercase">Arpeggiator</label>
         <div class="bg-black p-4 my-4">
           <input id="arpeggiating" v-model="arpeggiator.active" type="checkbox" />
@@ -202,3 +202,13 @@ export default {
   },
 }
 </script>
+
+<style lang="postcss">
+ .box {
+   @apply p-4 m-4 flex flex-col items-center shadows;
+ }
+ .shadows {
+   box-shadow: 1px 1px 4px rgba(0,0,0,0.3)
+ }
+</style>
+
