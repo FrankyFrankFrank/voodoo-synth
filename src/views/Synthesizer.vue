@@ -104,9 +104,6 @@ export default {
     },
     setKeyPressed(key) {
       const index = this.keysPressed.indexOf(key);
-      if (index > 0) {
-        return false;
-      }
     },
     unsetKeyPressed(key) {
       const index = this.keysPressed.indexOf(key);
