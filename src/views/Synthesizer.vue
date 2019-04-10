@@ -61,16 +61,16 @@
       <div class="p-4 m-4 flex flex-col items-center" style="box-shadow: 1px 1px 4px rgba(0,0,0,0.3)">
         <label>Arpeggiator</label>
         <div class="bg-black rounded p-4 my-4">
-          <input id="arpeggiating" v-model="arpeggiating" type="checkbox" />
-          <label for="arpeggiating">{{ arpeggiating ? 'ON' : 'OFF' }}</label>
+          <input id="arpeggiating" v-model="arpeggiator.active" type="checkbox" />
+          <label for="arpeggiating">{{ arpeggiator.active ? 'ON' : 'OFF' }}</label>
         </div>
         <div class="bg-black rounded p-4 my-4">
-          <input id="arpeggiationTiming" v-model.number="arpeggiationTiming" type="range" min="0.01" max="2" step="0.01" />
-          <label for="arpeggiationTiming">Timing {{ arpeggiationTiming }}</label>
+          <input id="arpeggiationTiming" v-model.number="arpeggiator.config.timing" type="range" min="0.01" max="2" step="0.01" />
+          <label for="arpeggiationTiming">Timing {{ arpeggiator.config.timing }}</label>
         </div>
         <div class="bg-black rounded p-4 my-4">
-          <input id="arpeggiationSteps" v-model.number="arpeggiationSteps" type="range" list="steps" min="2" max="5" />
-          <label for="arpeggiationSteps">Steps {{ arpeggiationSteps }}</label>
+          <input id="arpeggiationSteps" v-model.number="arpeggiator.config.steps" type="range" list="steps" min="2" max="5" />
+          <label for="arpeggiationSteps">Steps {{ arpeggiator.config.steps }}</label>
           <datalist id="steps">
             <option value="2"/>
             <option value="3"/>
@@ -87,7 +87,7 @@
 import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
 import keyMap from '@/keys';
-import { arpeggiate } from '@/components/Arpeggiator';
+import Arpeggiator from '@/components/Arpeggiator';
 
 const keyIsAValidNote = (key) => {
   return keyMap[key] !== undefined;
@@ -108,9 +108,13 @@ export default {
       decay: 0.1,
       attack: 0.1,
       octave: 4,
-      arpeggiating: false,
-      arpeggiationTiming: 0.2,
-      arpeggiationSteps: 3,
+      arpeggiator: {
+        active: false,
+        config: {
+          timing: 0.2,
+          steps: 3,
+        }
+      },
       oscillators: [],
       allowed: true,
       keysPressed: [],
@@ -160,20 +164,12 @@ export default {
     createOscillatorNode(key) {
       const audioContext = this.audioContext;
       const oscillator = audioContext.createOscillator();
-      const timing = this.arpeggiationTiming;
-      const steps = this.arpeggiationSteps;
       const baseOctave = this.octave;
       oscillator.type = this.soundShape;
       oscillator.frequency.setTargetAtTime(frequencies[keyMap[key]][this.octave], this.audioContext.currentTime, 0);
-      if (this.arpeggiating) {
-        arpeggiate({
-          audioContext,
-          oscillator,
-          timing,
-          steps,
-          key,
-          baseOctave,
-        });
+      if (this.arpeggiator.active) {
+        new Arpeggiator({ audioContext, config: this.arpeggiator.config })
+          .arpeggiate({ oscillator, key, baseOctave });
       }
       return oscillator;
     },
