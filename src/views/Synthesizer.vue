@@ -84,9 +84,9 @@ export default {
       this.unsetKeyPressed(key)
       const now = this.audioContext.currentTime;
       const oscillator = this.findOscillatorBy({ key });
-      const index = this.oscillators.findIndex((osc) => { return osc.key === key });
+      const oscillatorIndex = this.oscillators.findIndex((osc) => { return osc.key === key });
       oscillator.gainNode.gain.exponentialRampToValueAtTime(0.001, now + this.decay);
-      this.oscillators.splice(index, 1);
+      this.oscillators.splice(oscillatorIndex, 1);
     },
     createGainNode() {
       const gainNode = this.audioContext.createGain();
