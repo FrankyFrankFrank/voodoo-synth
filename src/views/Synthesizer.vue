@@ -79,6 +79,10 @@
           </datalist>
         </div>
       </div>
+      <musical-typing
+        @handleKeyDown="handleKeyDown"
+        @stopNote="stopNote"
+      ></musical-typing>
     </div>
   </div>
 </template>
@@ -88,13 +92,15 @@ import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
 import keyMap from '@/keys';
 import Arpeggiator from '@/components/Arpeggiator';
+import MusicalTyping from "../components/MusicalTyping";
 
 const keyIsAValidNote = (key) => {
   return keyMap[key] !== undefined;
 }
 
 export default {
-  props: {
+    components: {MusicalTyping},
+    props: {
     audioContext: {
       default: function () {
         return new AudioContext();
@@ -119,10 +125,6 @@ export default {
       allowed: true,
       keysPressed: [],
     }
-  },
-  created() {
-    window.addEventListener('keydown', this.handleKeyDown)
-    window.addEventListener('keyup', this.stopNote)
   },
   computed: {
     soundShape() {
