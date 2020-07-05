@@ -140,6 +140,10 @@ export default {
       const gainNode = this.createGainNode();
       const frequency = frequencies[keyMap[key]][this.octave];
       const oscillator = this.createOscillatorNode(key, frequency);
+      if (this.arpeggiator.active) {
+          new Arpeggiator({ audioContext: this.audioContext, config: this.arpeggiator.config })
+              .arpeggiate({ oscillator, key, baseOctave: this.octave });
+      }
       oscillator.connect(gainNode);
       this.oscillators.push({ key, oscillator, gainNode });
       oscillator.start();
@@ -166,10 +170,7 @@ export default {
       const oscillator = audioContext.createOscillator();
       oscillator.type = this.soundShape;
       oscillator.frequency.setTargetAtTime(frequency, this.audioContext.currentTime, 0);
-      if (this.arpeggiator.active) {
-        new Arpeggiator({ audioContext, config: this.arpeggiator.config })
-          .arpeggiate({ oscillator, key, baseOctave: this.octave });
-      }
+
       return oscillator;
     },
     findOscillatorBy({ key }) {
