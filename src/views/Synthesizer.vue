@@ -134,7 +134,7 @@ export default {
       this.octave = this.octave + step;
     },
     playNote(key, frequency) {
-      if (this.findOscillatorBy({ key })) { return }
+      if (this.findOscillatorBy({ frequency })) { return }
 
       const gainNode = this.createGainNode();
       const oscillator = this.createOscillatorNode(frequency);
@@ -144,17 +144,16 @@ export default {
               .arpeggiate({ oscillator, key, baseOctave: this.octave });
       }
       oscillator.connect(gainNode);
-      this.oscillators.push({ key, oscillator, gainNode });
+      this.oscillators.push({ frequency, oscillator, gainNode });
       oscillator.start();
     },
-    stopNote(e) {
-      const key = e.key;
+    stopNote(frequency) {
       const now = this.audioContext.currentTime;
 
-      const oscillator = this.findOscillatorBy({ key });
+      const oscillator = this.findOscillatorBy({ frequency });
       oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, now + this.decay);
 
-      const oscillatorIndex = this.oscillators.findIndex(o => o.key === key );
+      const oscillatorIndex = this.oscillators.findIndex(o => o.frequency === frequency );
       this.oscillators.splice(oscillatorIndex, 1);
     },
     createGainNode() {
@@ -171,8 +170,8 @@ export default {
 
       return oscillator;
     },
-    findOscillatorBy({ key }) {
-      return this.oscillators.find(o => o.key === key)
+    findOscillatorBy({ frequency }) {
+      return this.oscillators.find(o => o.frequency === frequency)
     }
   },
 }

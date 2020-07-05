@@ -30,7 +30,9 @@
             stopNote(e) {
                 if (!this.keyIsAValidNote(e.key)) return;
 
-                this.$emit('stopNote', e);
+                const frequency = frequencies[keyMap[e.key]][this.octave];
+
+                this.$emit('stopNote', frequency);
             },
             keyIsAValidNote (key) {
                 return keyMap[key] !== undefined;
