@@ -146,9 +146,11 @@ export default {
     stopNote(e) {
       const key = e.key;
       const now = this.audioContext.currentTime;
+
       const oscillator = this.findOscillatorBy({ key });
-      const oscillatorIndex = this.oscillators.findIndex(o => o.key === key );
       oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, now + this.decay);
+
+      const oscillatorIndex = this.oscillators.findIndex(o => o.key === key );
       this.oscillators.splice(oscillatorIndex, 1);
     },
     createGainNode() {
