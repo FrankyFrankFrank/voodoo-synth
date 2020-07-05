@@ -120,7 +120,6 @@ export default {
       },
       oscillators: [],
       allowed: true,
-      keysPressed: [],
     }
   },
   computed: {
@@ -138,7 +137,6 @@ export default {
     playNote(key) {
       if (this.findOscillatorBy({ key })) { return }
 
-      this.setKeyPressed(key);
       const gainNode = this.createGainNode();
       const oscillator = this.createOscillatorNode(key);
       oscillator.connect(gainNode);
@@ -148,7 +146,6 @@ export default {
     stopNote(e) {
       const key = e.key;
       const now = this.audioContext.currentTime;
-      this.unsetKeyPressed(key);
       const oscillator = this.findOscillatorBy({ key });
       const oscillatorIndex = this.oscillators.findIndex(o => o.key === key );
       oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, now + this.decay);
@@ -172,15 +169,6 @@ export default {
           .arpeggiate({ oscillator, key, baseOctave });
       }
       return oscillator;
-    },
-    setKeyPressed(key) {
-      this.keysPressed.push(key)
-    },
-    unsetKeyPressed(key) {
-      const index = this.keysPressed.indexOf(key);
-      if (index >= 0) {
-        this.keysPressed.splice(index, 1);
-      }
     },
     findOscillatorBy({ key }) {
       return this.oscillators.find(o => o.key === key)
