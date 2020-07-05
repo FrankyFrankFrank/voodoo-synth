@@ -153,9 +153,9 @@ export default {
       const key = e.key;
       const now = this.audioContext.currentTime;
       if (!keyIsAValidNote(key)) { return }
-      this.unsetKeyPressed(key)
+      this.unsetKeyPressed(key);
       const oscillator = this.findOscillatorBy({ key });
-      const oscillatorIndex = this.oscillators.findIndex((osc) => { return osc.key === key });
+      const oscillatorIndex = this.oscillators.findIndex(o => o.key === key );
       oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, now + this.decay);
       this.oscillators.splice(oscillatorIndex, 1);
     },
@@ -188,7 +188,7 @@ export default {
       }
     },
     findOscillatorBy({ key }) {
-      return this.oscillators.find((osc) => osc.key === key)
+      return this.oscillators.find(o => o.key === key)
     }
   },
 }
