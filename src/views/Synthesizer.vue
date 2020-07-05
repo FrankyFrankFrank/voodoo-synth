@@ -80,6 +80,7 @@
         </div>
       </div>
       <musical-typing
+        :octave="octave"
         @stopNote="stopNote"
         @changeOctave="changeOctave"
         @playNote="playNote"
@@ -89,9 +90,7 @@
 </template>
 
 <script>
-import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
-import keyMap from '@/keys';
 import Arpeggiator from '@/components/Arpeggiator';
 import MusicalTyping from "../components/MusicalTyping";
 
@@ -134,12 +133,12 @@ export default {
       }
       this.octave = this.octave + step;
     },
-    playNote(key) {
+    playNote(key, frequency) {
       if (this.findOscillatorBy({ key })) { return }
 
       const gainNode = this.createGainNode();
-      const frequency = frequencies[keyMap[key]][this.octave];
       const oscillator = this.createOscillatorNode(key, frequency);
+
       if (this.arpeggiator.active) {
           new Arpeggiator({ audioContext: this.audioContext, config: this.arpeggiator.config })
               .arpeggiate({ oscillator, key, baseOctave: this.octave });

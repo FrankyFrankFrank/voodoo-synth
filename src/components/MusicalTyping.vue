@@ -3,9 +3,11 @@
 </template>
 
 <script>
+    import frequencies from '@/frequencies';
     import keyMap from '@/keys';
     export default {
         name: "MusicalTyping",
+        props: ['octave'],
         created () {
             window.addEventListener('keydown', this.handleKeyDown);
             window.addEventListener('keyup', this.stopNote);
@@ -21,7 +23,8 @@
                     return
                 }
                 if (this.keyIsAValidNote(e.key) && !e.repeat) {
-                    this.$emit('playNote', e.key);
+                    const frequency = frequencies[keyMap[e.key]][this.octave];
+                    this.$emit('playNote', e.key, frequency);
                 }
             },
             stopNote(e) {
