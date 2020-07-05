@@ -95,10 +95,6 @@ import keyMap from '@/keys';
 import Arpeggiator from '@/components/Arpeggiator';
 import MusicalTyping from "../components/MusicalTyping";
 
-const keyIsAValidNote = (key) => {
-  return keyMap[key] !== undefined;
-}
-
 export default {
     components: {MusicalTyping},
     props: {
@@ -152,7 +148,6 @@ export default {
     stopNote(e) {
       const key = e.key;
       const now = this.audioContext.currentTime;
-      if (!keyIsAValidNote(key)) { return }
       this.unsetKeyPressed(key);
       const oscillator = this.findOscillatorBy({ key });
       const oscillatorIndex = this.oscillators.findIndex(o => o.key === key );

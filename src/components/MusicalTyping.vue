@@ -25,7 +25,9 @@
                 }
             },
             stopNote(e) {
-                this.$emit('stopNote', e)
+                if (!this.keyIsAValidNote(e.key)) return;
+
+                this.$emit('stopNote', e);
             },
             keyIsAValidNote (key) {
                 return keyMap[key] !== undefined;
