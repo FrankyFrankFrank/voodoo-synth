@@ -166,8 +166,7 @@ export default {
       return gainNode;
     },
     createOscillatorNode(key, frequency) {
-      const audioContext = this.audioContext;
-      const oscillator = audioContext.createOscillator();
+      const oscillator = this.audioContext.createOscillator();
       oscillator.type = this.soundShape;
       oscillator.frequency.setTargetAtTime(frequency, this.audioContext.currentTime, 0);
 
