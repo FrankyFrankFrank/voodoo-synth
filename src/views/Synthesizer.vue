@@ -137,7 +137,7 @@ export default {
       if (this.findOscillatorBy({ key })) { return }
 
       const gainNode = this.createGainNode();
-      const oscillator = this.createOscillatorNode(key, frequency);
+      const oscillator = this.createOscillatorNode(frequency);
 
       if (this.arpeggiator.active) {
           new Arpeggiator({ audioContext: this.audioContext, config: this.arpeggiator.config })
@@ -164,7 +164,7 @@ export default {
       gainNode.connect(this.audioContext.destination);
       return gainNode;
     },
-    createOscillatorNode(key, frequency) {
+    createOscillatorNode(frequency) {
       const oscillator = this.audioContext.createOscillator();
       oscillator.type = this.soundShape;
       oscillator.frequency.setTargetAtTime(frequency, this.audioContext.currentTime, 0);
