@@ -11,6 +11,14 @@
         },
         methods: {
             handleKeyDown (e) {
+                if (e.key === '.') {
+                    this.$emit('changeOctave', 1);
+                    return
+                }
+                if (e.key === ',') {
+                    this.$emit('changeOctave', -1);
+                    return
+                }
                 this.$emit('handleKeyDown', e);
             },
             stopNote(e) {

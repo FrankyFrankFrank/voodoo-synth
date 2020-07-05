@@ -82,6 +82,7 @@
       <musical-typing
         @handleKeyDown="handleKeyDown"
         @stopNote="stopNote"
+        @changeOctave="changeOctave"
       ></musical-typing>
     </div>
   </div>
@@ -136,12 +137,6 @@ export default {
       const key = e.key;
       if (keyIsAValidNote(key) && !e.repeat) {
         this.playNote(key);
-      }
-      if (key === '.') {
-        this.changeOctave(1);
-      }
-      if (key === ',') {
-        this.changeOctave(-1);
       }
     },
     changeOctave(step) {
