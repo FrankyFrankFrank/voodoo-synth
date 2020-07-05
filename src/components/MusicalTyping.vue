@@ -3,6 +3,7 @@
 </template>
 
 <script>
+    import keyMap from '@/keys';
     export default {
         name: "MusicalTyping",
         created () {
@@ -19,10 +20,15 @@
                     this.$emit('changeOctave', -1);
                     return
                 }
-                this.$emit('handleKeyDown', e);
+                if (this.keyIsAValidNote(e.key) && !e.repeat) {
+                    this.$emit('playNote', e.key);
+                }
             },
             stopNote(e) {
                 this.$emit('stopNote', e)
+            },
+            keyIsAValidNote (key) {
+                return keyMap[key] !== undefined;
             }
         }
     }
