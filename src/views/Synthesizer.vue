@@ -164,12 +164,11 @@ export default {
     createOscillatorNode(key, frequency) {
       const audioContext = this.audioContext;
       const oscillator = audioContext.createOscillator();
-      const baseOctave = this.octave;
       oscillator.type = this.soundShape;
       oscillator.frequency.setTargetAtTime(frequency, this.audioContext.currentTime, 0);
       if (this.arpeggiator.active) {
         new Arpeggiator({ audioContext, config: this.arpeggiator.config })
-          .arpeggiate({ oscillator, key, baseOctave });
+          .arpeggiate({ oscillator, key, baseOctave: this.octave });
       }
       return oscillator;
     },
