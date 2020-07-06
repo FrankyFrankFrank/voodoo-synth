@@ -31,7 +31,7 @@
                     },
                     {
                         letter: 'w',
-                        pianoKey: 'C#',
+                        pianoKey: 'Db',
                         offset: 5,
                         isNatural: false,
                         isActive: false
@@ -45,7 +45,7 @@
                     },
                     {
                         letter: 'e',
-                        pianoKey: 'D#',
+                        pianoKey: 'Eb',
                         offset: 7,
                         isNatural: false,
                         isActive: false
@@ -69,7 +69,7 @@
                     },
                     {
                         letter: 't',
-                        pianoKey: 'F#',
+                        pianoKey: 'Gb',
                         offset: 10,
                         isNatural: false,
                         isActive: false
@@ -83,7 +83,7 @@
                     },
                     {
                         letter: 'y',
-                        pianoKey: 'G#',
+                        pianoKey: 'Ab',
                         offset: 12,
                         isNatural: false,
                         isActive: false
@@ -97,7 +97,7 @@
                     },
                     {
                         letter: 'u',
-                        pianoKey: 'A#',
+                        pianoKey: 'Bb',
                         offset: 14,
                         isNatural: false,
                         isActive: false
@@ -121,7 +121,7 @@
                     },
                     {
                         letter: 'o',
-                        pianoKey: 'C#',
+                        pianoKey: 'Db',
                         offset: 17,
                         isNatural: false,
                         isActive: false
@@ -154,7 +154,7 @@
                     let internalKey = this.keys.find(k => k.letter === e.key);
                     internalKey.isActive = true;
 
-                    const frequency = frequencies[keyMap[e.key]][this.octave];
+                    const frequency = frequencies[internalKey.pianoKey][this.octave];
                     this.activeFrequencies[e.key] = frequency;
                     this.$emit('playNote', frequency);
                 }
@@ -171,7 +171,7 @@
                 this.$emit('stopNote', frequency);
             },
             keyIsAValidNote (key) {
-                return keyMap[key] !== undefined;
+                return this.keys.map(k => k.letter).includes(key);
             }
         },
         computed: {
