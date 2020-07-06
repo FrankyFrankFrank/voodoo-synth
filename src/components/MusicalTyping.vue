@@ -8,6 +8,11 @@
     export default {
         name: "MusicalTyping",
         props: ['octave'],
+        data () {
+            return {
+                activeFrequencies: {}
+            }
+        },
         created () {
             window.addEventListener('keydown', this.handleKeyDown);
             window.addEventListener('keyup', this.stopNote);
@@ -24,13 +29,15 @@
                 }
                 if (this.keyIsAValidNote(e.key) && !e.repeat) {
                     const frequency = frequencies[keyMap[e.key]][this.octave];
+                    this.activeFrequencies[e.key] = frequency;
                     this.$emit('playNote', e.key, frequency);
                 }
             },
             stopNote(e) {
                 if (!this.keyIsAValidNote(e.key)) return;
 
-                const frequency = frequencies[keyMap[e.key]][this.octave];
+                const frequency = this.activeFrequencies[e.key];
+                delete this.activeFrequencies[e.key];
 
                 this.$emit('stopNote', frequency);
             },
