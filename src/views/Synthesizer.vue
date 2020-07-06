@@ -141,7 +141,7 @@ export default {
 
       if (this.arpeggiator.active) {
           new Arpeggiator({ audioContext: this.audioContext, config: this.arpeggiator.config })
-              .arpeggiate(oscillator, this.octave, frequency);
+              .arpeggiate(oscillator, frequency);
       }
       oscillator.connect(gainNode);
       this.oscillators.push({ frequency, oscillator, gainNode });
