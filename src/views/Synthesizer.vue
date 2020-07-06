@@ -88,6 +88,7 @@ import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
 import keyMap from '@/keys';
 import Arpeggiator from '@/components/Arpeggiator';
+import Keyboard from '@/keyboard';
 
 const keyIsAValidNote = (key) => {
   return keyMap[key] !== undefined;
@@ -118,11 +119,12 @@ export default {
       oscillators: [],
       allowed: true,
       keysPressed: [],
+      keyboard: null,
     }
   },
   created() {
-    window.addEventListener('keydown', this.handleKeyDown)
-    window.addEventListener('keyup', this.stopNote)
+    this.keyboard = new Keyboard();
+    this.keyboard.onKeyDown(this.handleKeyDown);
   },
   computed: {
     soundShape() {
@@ -130,11 +132,11 @@ export default {
     }
   },
   methods: {
+
     handleKeyDown(e) {
+      console.log('here')
       const key = e.key;
-      if (keyIsAValidNote(key) && !e.repeat) {
-        this.playNote(key);
-      }
+      this.playNote(key);
       if (key === '.') {
         this.changeOctave(1);
       }
