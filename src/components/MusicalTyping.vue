@@ -11,9 +11,8 @@
 </template>
 
 <script>
-    import frequencies from '@/frequencies';
-    import keyMap from '@/keys';
     import KeyButton from "./KeyButton";
+
     export default {
         name: "MusicalTyping",
         components: {KeyButton},
@@ -154,7 +153,7 @@
                     let internalKey = this.keys.find(k => k.letter === e.key);
                     internalKey.isActive = true;
 
-                    const frequency = frequencies[internalKey.pianoKey][this.octave];
+                    const frequency = this.frequency(this.keyNumber(internalKey));
                     this.activeFrequencies[e.key] = frequency;
                     this.$emit('playNote', frequency);
                 }
@@ -172,6 +171,14 @@
             },
             keyIsAValidNote (key) {
                 return this.keys.map(k => k.letter).includes(key);
+            },
+            keyNumber (key) {
+                return key.offset + this.octave * 12;
+            },
+            frequency (keyNumber) {
+                const power = (keyNumber - 49) / 12;
+
+                return Number((Math.pow(2, power) * 440).toFixed(2));
             }
         },
         computed: {
