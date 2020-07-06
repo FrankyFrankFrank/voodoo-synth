@@ -64,7 +64,8 @@
                         isActive: false
                     },
                     {
-                        isGhost: true
+                        isGhost: true,
+                        isNatural: false,
                     },
                     {
                         letter: 't',
@@ -116,7 +117,8 @@
                         isActive: false
                     },
                     {
-                        isGhost: true
+                        isGhost: true,
+                        isNatural: false,
                     },
                     {
                         letter: 'o',
