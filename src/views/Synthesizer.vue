@@ -133,7 +133,7 @@ export default {
       }
       this.octave = this.octave + step;
     },
-    playNote(key, frequency) {
+    playNote(frequency) {
       if (this.findOscillatorBy({ frequency })) { return }
 
       const gainNode = this.createGainNode();
@@ -141,7 +141,7 @@ export default {
 
       if (this.arpeggiator.active) {
           new Arpeggiator({ audioContext: this.audioContext, config: this.arpeggiator.config })
-              .arpeggiate({ oscillator, key, baseOctave: this.octave });
+              .arpeggiate(oscillator, this.octave, frequency);
       }
       oscillator.connect(gainNode);
       this.oscillators.push({ frequency, oscillator, gainNode });

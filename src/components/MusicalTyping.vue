@@ -30,7 +30,7 @@
                 if (this.keyIsAValidNote(e.key) && !e.repeat) {
                     const frequency = frequencies[keyMap[e.key]][this.octave];
                     this.activeFrequencies[e.key] = frequency;
-                    this.$emit('playNote', e.key, frequency);
+                    this.$emit('playNote', frequency);
                 }
             },
             stopNote(e) {
