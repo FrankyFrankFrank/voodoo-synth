@@ -24,18 +24,14 @@ describe('Arpeggiator', () => {
       frequency: {
         setValueAtTime: jest.fn(),
       }
-    }
+    };
     const arpeggiator = new Arpeggiator({
       audioContext: testAudioContext,
       config: testConfig,
-    })
-
-    arpeggiator.arpeggiate({
-      oscillator: testOscillator,
-      key: 'a',
-      baseOctave: 4,
     });
+
+    arpeggiator.arpeggiate(testOscillator, 440);
 
     expect(testOscillator.frequency.setValueAtTime).toHaveBeenCalled();
   });
-})
+});
