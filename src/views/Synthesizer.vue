@@ -79,13 +79,13 @@
           </datalist>
         </div>
       </div>
-      <musical-typing
-        :octave="octave"
-        @stopNote="stopNote"
-        @changeOctave="changeOctave"
-        @playNote="playNote"
-      ></musical-typing>
     </div>
+    <musical-typing
+      :octave="octave"
+      @stopNote="stopNote"
+      @changeOctave="changeOctave"
+      @playNote="playNote"
+    ></musical-typing>
   </div>
 </template>
 
