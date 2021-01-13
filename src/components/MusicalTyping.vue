@@ -13,6 +13,8 @@
 <script>
   import KeyButton from "./KeyButton";
 
+  const KEYS_IN_OCTAVE = 12;
+
   export default {
     name: "MusicalTyping",
     components: {KeyButton},
@@ -24,42 +26,42 @@
           {
             letter: 'a',
             pianoKey: 'C',
-            offset: 4,
+            stepsAboveRootOfOctave: 4,
             isNatural: true,
             isActive: false
           },
           {
             letter: 'w',
             pianoKey: 'Db',
-            offset: 5,
+            stepsAboveRootOfOctave: 5,
             isNatural: false,
             isActive: false
           },
           {
             letter: 's',
             pianoKey: 'D',
-            offset: 6,
+            stepsAboveRootOfOctave: 6,
             isNatural: true,
             isActive: false
           },
           {
             letter: 'e',
             pianoKey: 'Eb',
-            offset: 7,
+            stepsAboveRootOfOctave: 7,
             isNatural: false,
             isActive: false
           },
           {
             letter: 'd',
             pianoKey: 'E',
-            offset: 8,
+            stepsAboveRootOfOctave: 8,
             isNatural: true,
             isActive: false
           },
           {
             letter: 'f',
             pianoKey: 'F',
-            offset: 9,
+            stepsAboveRootOfOctave: 9,
             isNatural: true,
             isActive: false
           },
@@ -70,49 +72,49 @@
           {
             letter: 't',
             pianoKey: 'Gb',
-            offset: 10,
+            stepsAboveRootOfOctave: 10,
             isNatural: false,
             isActive: false
           },
           {
             letter: 'g',
             pianoKey: 'G',
-            offset: 11,
+            stepsAboveRootOfOctave: 11,
             isNatural: true,
             isActive: false
           },
           {
             letter: 'y',
             pianoKey: 'Ab',
-            offset: 12,
+            stepsAboveRootOfOctave: 12,
             isNatural: false,
             isActive: false
           },
           {
             letter: 'h',
             pianoKey: 'A',
-            offset: 13,
+            stepsAboveRootOfOctave: 13,
             isNatural: true,
             isActive: false
           },
           {
             letter: 'u',
             pianoKey: 'Bb',
-            offset: 14,
+            stepsAboveRootOfOctave: 14,
             isNatural: false,
             isActive: false
           },
           {
             letter: 'j',
             pianoKey: 'B',
-            offset: 15,
+            stepsAboveRootOfOctave: 15,
             isNatural: true,
             isActive: false
           },
           {
             letter: 'k',
             pianoKey: 'C',
-            offset: 16,
+            stepsAboveRootOfOctave: 16,
             isNatural: true,
             isActive: false
           },
@@ -123,14 +125,14 @@
           {
             letter: 'o',
             pianoKey: 'Db',
-            offset: 17,
+            stepsAboveRootOfOctave: 17,
             isNatural: false,
             isActive: false
           },
           {
             letter: 'l',
             pianoKey: 'D',
-            offset: 18,
+            stepsAboveRootOfOctave: 18,
             isNatural: true,
             isActive: false
           }
@@ -175,12 +177,17 @@
         return this.keys.map(k => k.letter).includes(key);
       },
       keyNumber(key) {
-        return key.offset + this.octave * 12;
+        return key.stepsAboveRootOfOctave + this.octave * KEYS_IN_OCTAVE;
       },
       frequency(keyNumber) {
-        const power = (keyNumber - 49) / 12;
+        // The formula for converting a key of the piano to it's frequency in twelve-tone equal temperament:
+        // https://en.wikipedia.org/wiki/Piano_key_frequencies
 
-        return Number((Math.pow(2, power) * 440).toFixed(2));
+        const FOURTH_OCTAVE_A_KEY_NUMBER = 49;
+        const FREQUENCY_OF_FOURTH_OCTAVE_A = 440;
+
+        const power = (keyNumber - FOURTH_OCTAVE_A_KEY_NUMBER) / KEYS_IN_OCTAVE;
+        return Number((Math.pow(2, power) * FREQUENCY_OF_FOURTH_OCTAVE_A).toFixed(2));
       }
     },
     computed: {
