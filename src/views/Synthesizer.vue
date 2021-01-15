@@ -80,22 +80,23 @@
         </div>
       </div>
     </div>
+    <musical-typing
+      :octave="octave"
+      @stopNote="stopNote"
+      @changeOctave="changeOctave"
+      @playNote="playNote"
+    ></musical-typing>
   </div>
 </template>
 
 <script>
-import frequencies from '@/frequencies';
 import shapeMap from '@/shapes';
-import keyMap from '@/keys';
 import Arpeggiator from '@/components/Arpeggiator';
-import Keyboard from '@/keyboard';
-
-const keyIsAValidNote = (key) => {
-  return keyMap[key] !== undefined;
-}
+import MusicalTyping from "../components/MusicalTyping";
 
 export default {
-  props: {
+    components: {MusicalTyping},
+    props: {
     audioContext: {
       default: function () {
         return new AudioContext();
@@ -118,13 +119,7 @@ export default {
       },
       oscillators: [],
       allowed: true,
-      keysPressed: [],
-      keyboard: null,
     }
-  },
-  created() {
-    this.keyboard = new Keyboard();
-    this.keyboard.onKeyDown(this.handleKeyDown);
   },
   computed: {
     soundShape() {
@@ -132,42 +127,33 @@ export default {
     }
   },
   methods: {
-
-    handleKeyDown(e) {
-      console.log('here')
-      const key = e.key;
-      this.playNote(key);
-      if (key === '.') {
-        this.changeOctave(1);
-      }
-      if (key === ',') {
-        this.changeOctave(-1);
-      }
-    },
     changeOctave(step) {
       if (this.octave + step < 0 || this.octave + step > 7) {
         return
       }
       this.octave = this.octave + step;
     },
-    playNote(key) {
-      if (this.findOscillatorBy({ key })) { return }
+    playNote(frequency) {
+      if (this.findOscillatorBy({ frequency })) { return }
 
-      this.setKeyPressed(key);
       const gainNode = this.createGainNode();
-      const oscillator = this.createOscillatorNode(key);
+      const oscillator = this.createOscillatorNode(frequency);
+
+      if (this.arpeggiator.active) {
+          new Arpeggiator({ audioContext: this.audioContext, config: this.arpeggiator.config })
+              .arpeggiate(oscillator, frequency);
+      }
       oscillator.connect(gainNode);
-      this.oscillators.push({ key, oscillator, gainNode });
+      this.oscillators.push({ frequency, oscillator, gainNode });
       oscillator.start();
     },
-    stopNote(e) {
-      const key = e.key;
+    stopNote(frequency) {
       const now = this.audioContext.currentTime;
-      if (!keyIsAValidNote(key)) { return }
-      this.unsetKeyPressed(key)
-      const oscillator = this.findOscillatorBy({ key });
-      const oscillatorIndex = this.oscillators.findIndex((osc) => { return osc.key === key });
+
+      const oscillator = this.findOscillatorBy({ frequency });
       oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, now + this.decay);
+
+      const oscillatorIndex = this.oscillators.findIndex(o => o.frequency === frequency );
       this.oscillators.splice(oscillatorIndex, 1);
     },
     createGainNode() {
@@ -177,29 +163,15 @@ export default {
       gainNode.connect(this.audioContext.destination);
       return gainNode;
     },
-    createOscillatorNode(key) {
-      const audioContext = this.audioContext;
-      const oscillator = audioContext.createOscillator();
-      const baseOctave = this.octave;
+    createOscillatorNode(frequency) {
+      const oscillator = this.audioContext.createOscillator();
       oscillator.type = this.soundShape;
-      oscillator.frequency.setTargetAtTime(frequencies[keyMap[key]][this.octave], this.audioContext.currentTime, 0);
-      if (this.arpeggiator.active) {
-        new Arpeggiator({ audioContext, config: this.arpeggiator.config })
-          .arpeggiate({ oscillator, key, baseOctave });
-      }
+      oscillator.frequency.setTargetAtTime(frequency, this.audioContext.currentTime, 0);
+
       return oscillator;
     },
-    setKeyPressed(key) {
-      this.keysPressed.push(key)
-    },
-    unsetKeyPressed(key) {
-      const index = this.keysPressed.indexOf(key);
-      if (index >= 0) {
-        this.keysPressed.splice(index, 1);
-      }
-    },
-    findOscillatorBy({ key }) {
-      return this.oscillators.find((osc) => osc.key === key)
+    findOscillatorBy({ frequency }) {
+      return this.oscillators.find(o => o.frequency === frequency)
     }
   },
 }

@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, mount } from '@vue/test-utils'
 import Synthesizer from '@/Views/Synthesizer.vue'
 import AudioContext from '../mocks/AudioContext';
 
@@ -13,9 +13,9 @@ describe('Synthesizer', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it('plays a C note when the c key pressed', () => {
+  it('plays 880Hz when the A key pressed on default 4th octave', () => {
     const playNoteStub = jest.fn();
-    const wrapper = shallowMount(Synthesizer, {
+    const wrapper = mount(Synthesizer, {
       propsData: {
         audioContext: AudioContext
       },
@@ -26,9 +26,9 @@ describe('Synthesizer', () => {
     });
 
     wrapper.trigger('keydown', {
-      key: 'a'
+      key: 'h'
     });
 
-    expect(playNoteStub).toHaveBeenCalledWith('a');
+    expect(playNoteStub).toHaveBeenCalledWith(880);
   });
 });
