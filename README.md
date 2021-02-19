@@ -1,5 +1,7 @@
 # voodoo-synth
 
+[![Vue Test CI](https://github.com/FrankyFrankFrank/voodoo-synth/actions/workflows/node.js.yml/badge.svg?event=push)](https://github.com/FrankyFrankFrank/voodoo-synth/actions/workflows/node.js.yml)
+
 ## Project setup
 ```
 yarn install
