@@ -82,9 +82,9 @@
     </div>
     <musical-typing
       :octave="octave"
-      @stopNote="stopNote"
+      @keyDown="playNote"
+      @keyUp="stopNote"
       @changeOctave="changeOctave"
-      @playNote="playNote"
     ></musical-typing>
   </div>
 </template>
@@ -95,8 +95,8 @@ import Arpeggiator from '@/components/Arpeggiator';
 import MusicalTyping from "../components/MusicalTyping";
 
 export default {
-    components: {MusicalTyping},
-    props: {
+  components: {MusicalTyping},
+  props: {
     audioContext: {
       default: function () {
         return new AudioContext();
@@ -133,7 +133,8 @@ export default {
       }
       this.octave = this.octave + step;
     },
-    playNote(frequency) {
+    playNote(keyCode) {
+      const frequency = this.frequency(keyCode)
       if (this.findOscillatorBy({ frequency })) { return }
 
       const gainNode = this.createGainNode();
@@ -147,14 +148,25 @@ export default {
       this.oscillators.push({ frequency, oscillator, gainNode });
       oscillator.start();
     },
-    stopNote(frequency) {
+    stopNote(keyCode) {
       const now = this.audioContext.currentTime;
+      const frequency = this.frequency(keyCode)
 
       const oscillator = this.findOscillatorBy({ frequency });
       oscillator.gainNode.gain.exponentialRampToValueAtTime(0.00001, now + this.decay);
 
       const oscillatorIndex = this.oscillators.findIndex(o => o.frequency === frequency );
       this.oscillators.splice(oscillatorIndex, 1);
+    },
+    frequency(keyCode) {
+      // The formula for converting a key of the piano to it's frequency in twelve-tone equal temperament:
+      // https://en.wikipedia.org/wiki/Piano_key_frequencies
+      const KEYS_IN_OCTAVE = 12;
+      const FOURTH_OCTAVE_A_KEY_NUMBER = 49;
+      const FREQUENCY_OF_FOURTH_OCTAVE_A = 440;
+
+      const power = (keyCode - FOURTH_OCTAVE_A_KEY_NUMBER) / KEYS_IN_OCTAVE;
+      return Number((Math.pow(2, power) * FREQUENCY_OF_FOURTH_OCTAVE_A).toFixed(2));
     },
     createGainNode() {
       const gainNode = this.audioContext.createGain();

@@ -21,7 +21,6 @@
     props: ['octave'],
     data() {
       return {
-        activeFrequencies: {},
         keys: [
           {
             letter: 'a',
@@ -156,10 +155,7 @@
         if (this.keyIsAValidNote(e.key) && !e.repeat) {
           let internalKey = this.keys.find(k => k.letter === e.key);
           internalKey.isActive = true;
-
-          const frequency = this.frequency(this.keyNumber(internalKey));
-          this.activeFrequencies[e.key] = frequency;
-          this.$emit('playNote', frequency);
+          this.$emit('keyDown', this.keyNumber(internalKey));
         }
       },
       stopNote(e) {
@@ -168,26 +164,13 @@
         let internalKey = this.keys.find(k => k.letter === e.key);
         internalKey.isActive = false;
 
-        const frequency = this.activeFrequencies[e.key];
-        delete this.activeFrequencies[e.key];
-
-        this.$emit('stopNote', frequency);
+        this.$emit('keyUp', this.keyNumber(internalKey));
       },
       keyIsAValidNote(key) {
         return this.keys.map(k => k.letter).includes(key);
       },
       keyNumber(key) {
         return key.stepsAboveRootOfOctave + this.octave * KEYS_IN_OCTAVE;
-      },
-      frequency(keyNumber) {
-        // The formula for converting a key of the piano to it's frequency in twelve-tone equal temperament:
-        // https://en.wikipedia.org/wiki/Piano_key_frequencies
-
-        const FOURTH_OCTAVE_A_KEY_NUMBER = 49;
-        const FREQUENCY_OF_FOURTH_OCTAVE_A = 440;
-
-        const power = (keyNumber - FOURTH_OCTAVE_A_KEY_NUMBER) / KEYS_IN_OCTAVE;
-        return Number((Math.pow(2, power) * FREQUENCY_OF_FOURTH_OCTAVE_A).toFixed(2));
       }
     },
     computed: {
