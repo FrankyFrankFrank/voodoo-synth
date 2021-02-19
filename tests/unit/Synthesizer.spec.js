@@ -1,5 +1,5 @@
 import { shallowMount, mount } from '@vue/test-utils'
-import Synthesizer from '@/Views/Synthesizer.vue'
+import Synthesizer from '@/views/Synthesizer.vue'
 import AudioContext from '../mocks/AudioContext';
 
 describe('Synthesizer', () => {
