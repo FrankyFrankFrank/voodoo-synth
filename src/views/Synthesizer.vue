@@ -86,6 +86,7 @@
       @keyUp="stopNote"
       @changeOctave="changeOctave"
     ></musical-typing>
+    <oscilloscope :signal="randomGainNode"></oscilloscope>
   </div>
 </template>
 
@@ -93,9 +94,10 @@
 import shapeMap from '@/shapes';
 import Arpeggiator from '@/components/Arpeggiator';
 import MusicalTyping from "../components/MusicalTyping";
+import Oscilloscope from "@/components/Oscilloscope";
 
 export default {
-  components: {MusicalTyping},
+  components: {Oscilloscope, MusicalTyping},
   props: {
     audioContext: {
       default: function () {
@@ -124,6 +126,9 @@ export default {
   computed: {
     soundShape() {
       return shapeMap[this.shape];
+    },
+    randomGainNode() {
+      return this.oscillators[0] ? this.oscillators[0].gainNode : null
     }
   },
   methods: {
