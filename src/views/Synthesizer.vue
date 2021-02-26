@@ -86,7 +86,7 @@
       @keyUp="stopNote"
       @changeOctave="changeOctave"
     ></musical-typing>
-    <oscilloscope :signal="randomGainNode"></oscilloscope>
+    <oscilloscope :signal="analyzer"></oscilloscope>
   </div>
 </template>
 
@@ -120,6 +120,7 @@ export default {
         }
       },
       oscillators: [],
+      analyzer: new AnalyserNode(this.audioContext),
       allowed: true,
     }
   },
@@ -127,9 +128,6 @@ export default {
     soundShape() {
       return shapeMap[this.shape];
     },
-    randomGainNode() {
-      return this.oscillators[0] ? this.oscillators[0].gainNode : null
-    }
   },
   methods: {
     changeOctave(step) {
@@ -178,6 +176,7 @@ export default {
       gainNode.gain.value = 0.01;
       gainNode.gain.setTargetAtTime(this.volume, this.audioContext.currentTime, this.attack);
       gainNode.connect(this.audioContext.destination);
+      gainNode.connect(this.analyzer);
       return gainNode;
     },
     createOscillatorNode(frequency) {

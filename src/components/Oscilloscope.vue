@@ -10,20 +10,17 @@ import OscilloscopeFoo from 'oscilloscope'
 export default {
   name: "Oscilloscope",
   props: ['signal'],
-  watch: {
-    signal: function(newVal) {
-      const scope = new OscilloscopeFoo(newVal, { fftSize: 2048 })
+  mounted() {
+    const scope = new OscilloscopeFoo(this.signal, {fftSize: 2048})
 
-      let canvas = document.getElementById("c");
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight/4
-      let context = canvas.getContext("2d")
+    let canvas = document.getElementById("c");
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight / 4
+    let context = canvas.getContext("2d")
 
-      context.strokeStyle="white"
-      scope.animate(context)
-    }
+    context.strokeStyle = "white"
+    scope.animate(context)
   }
-
 }
 </script>
 
