@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>Oscilloscope</h2>
     <canvas id="c" class="oscilloscope"></canvas>
   </div>
 </template>
@@ -14,8 +13,14 @@ export default {
   watch: {
     signal: function(newVal) {
       const scope = new OscilloscopeFoo(newVal, { fftSize: 2048 })
-      document.getElementById("c").fillStyle="white"
-      scope.animate(document.getElementById("c").getContext("2d"))
+
+      let canvas = document.getElementById("c");
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight/4
+      let context = canvas.getContext("2d")
+
+      context.strokeStyle="white"
+      scope.animate(context)
     }
   }
 
@@ -27,3 +32,4 @@ export default {
   display: block;
 }
 </style>
+a
