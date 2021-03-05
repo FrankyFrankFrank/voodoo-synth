@@ -93,6 +93,7 @@
 import shapeMap from '@/shapes';
 import Arpeggiator from '@/components/Arpeggiator';
 import MusicalTyping from "../components/MusicalTyping";
+import initializeMidi from "@/initializeMidi";
 
 export default {
   components: {MusicalTyping},
@@ -125,6 +126,9 @@ export default {
     soundShape() {
       return shapeMap[this.shape];
     }
+  },
+  async created() {
+    await initializeMidi(this.playNote, this.stopNote);
   },
   methods: {
     changeOctave(step) {
