@@ -80,12 +80,21 @@
         </div>
       </div>
     </div>
-    <musical-typing
-      :octave="octave"
-      @keyDown="playNote"
-      @keyUp="stopNote"
-      @changeOctave="changeOctave"
-    ></musical-typing>
+    <div class="flex flex-wrap items-center justify-center">
+      <div class="box">
+        <label class="self-start text-xl uppercase" for="shape">Oscilloscope</label>
+        <oscilloscope :signal="analyzer"></oscilloscope>
+      </div>
+      <div class="box">
+        <label class="self-start text-xl uppercase" for="shape">Musical Typing</label>
+        <musical-typing
+            :octave="octave"
+            @keyDown="playNote"
+            @keyUp="stopNote"
+            @changeOctave="changeOctave"
+        ></musical-typing>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -93,9 +102,10 @@
 import shapeMap from '@/shapes';
 import Arpeggiator from '@/components/Arpeggiator';
 import MusicalTyping from "../components/MusicalTyping";
+import Oscilloscope from "@/components/Oscilloscope";
 
 export default {
-  components: {MusicalTyping},
+  components: {Oscilloscope, MusicalTyping},
   props: {
     audioContext: {
       default: function () {
@@ -118,6 +128,7 @@ export default {
         }
       },
       oscillators: [],
+      analyzer: new AnalyserNode(this.audioContext),
       allowed: true,
     }
   },
@@ -173,6 +184,7 @@ export default {
       gainNode.gain.value = 0.01;
       gainNode.gain.setTargetAtTime(this.volume, this.audioContext.currentTime, this.attack);
       gainNode.connect(this.audioContext.destination);
+      gainNode.connect(this.analyzer);
       return gainNode;
     },
     createOscillatorNode(frequency) {

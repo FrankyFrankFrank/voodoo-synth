@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto text-left mt-64" style="width:700px">
+  <div class="text-left mt-64" style="width:700px">
     <div>
       <button class="w-8"></button>
       <key-button v-for="key in sharpKeys" :key="key.key" :meta="key"></key-button>
